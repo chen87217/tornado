@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+    <link rel="stylesheet" href="/s/css/index.css" />
+</head>
+<body>
+欢迎你 {{ msg }}
+
+<br/>
+{{ ','.join([ str(x**2) for x in range(10)]) }}
+<br/>
+<span style="color:red">join 返回变量必须 str</span>
+
+<br/>
+{% if errors is not None %}
+{{ errors }}
+{% end %}
+
+
+</body>
+</html>
