@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ws聊天室</title>
+
+    <style type="text/css">
+        #msg-body{ border: 1px solid #eee; width: 400px; height: 500px;}
+    </style>
+</head>
+<body>
+    <h1>聊天室</h1>
+
+    <div id="msg-body"></div>
+
+    <div>
+        <input id="msg" type="text" />
+        <button id="btn-send">发送</button>
+    </div>
+
+    <script type="text/javascript">
+        function $(id){
+            return document.getElementById(id);
+        }
+        var box = $('msg-body');
+        var msg = $('msg');
+        var ok = $('btn-send')
+
+        window.onload = function(ev){
+            var socket = new WebSocket("ws://127.0.0.1:9001/chart");
+            // 设置打开socket连接的回调函数
+            socket.onopen = function(ev2){
+                console.log('open回调');
+                console.log(ev2);
+            };
+
+            // 接收服务器端发送的信息的回调函数
+            socket.onmessage = function(ev2){
+                box.innerHTML += ev2.data+'<br/>';
+            };
+
+            // 接收到错误信息的回调函数
+            socket.onerror = function(ev2){
+                console.log('错误回调');
+                console.log(ev2);
+            };
+
+            ok.addEventListener('click', function(el){
+                socket.send(msg.value);
+                msg.value = '';
+            })
+        }
+
+    </script>
+</body>
+</html>

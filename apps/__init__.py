@@ -9,7 +9,8 @@ import os
 from tornado.web import Application
 
 from .views import index, user
-
+from utils.messages import MessageHandler, RobbitHandler, ChartHandler
+from .views.ui import menus
 
 BASE_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 settings = {
@@ -17,10 +18,16 @@ settings = {
     'template_path': os.path.join(BASE_ROOT, 'templates'),
     'static_path': os.path.join(BASE_ROOT, 'static'),
     'static_url_prefix': '/s/',
+    'ui_modules':{
+        'menus': menus.MenusModule
+    }
 }
 
 def make_up(host):
     return Application(handlers=[
         ('/', index.IndexHandler),
         ('/user', user.UserHandler),
+        ('/robbit', RobbitHandler),
+        ('/message', MessageHandler),
+        ('/chart', ChartHandler),
     ], default_host=host, **settings)

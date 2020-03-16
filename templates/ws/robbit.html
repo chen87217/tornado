@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ws测试</title>
+</head>
+<body>
+    <h3>网上咨询</h3>
+
+    <div id="msg-box"></div>
+
+    <script type="text/javascript">
+        function $(id){
+            return document.getElementById(id);
+        }
+        var box = $('msg-box');
+        window.onload = function(ev){
+            var socket = new WebSocket("ws://127.0.0.1:9001/message");
+            // 设置打开socket连接的回调函数
+            socket.onopen = function(ev2){
+                console.log('open回调');
+                console.log(ev2);
+            };
+
+            // 接收服务器端发送的信息的回调函数
+            socket.onmessage = function(ev2){
+                box.innerHTML += ev2.data+'<br/>';
+            };
+
+            // 接收到错误信息的回调函数
+            socket.onerror = function(ev2){
+                console.log('错误回调');
+                console.log(ev2);
+            };
+        }
+
+    </script>
+</body>
+</html>
